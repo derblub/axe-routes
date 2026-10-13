@@ -1,6 +1,34 @@
-# axe-routes
+<div align="center">
 
-**Check every route of your site for accessibility problems, on every push.**
+<a href="https://pushingpixels.at">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/assets/logo-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="docs/assets/logo-light.svg">
+    <img src="docs/assets/logo.svg" alt="Pushing Pixels" width="96">
+  </picture>
+</a>
+
+<h1>axe-routes</h1>
+
+<p><strong>Check every route of your site for accessibility problems, on every push.</strong></p>
+
+<p>
+  <a href="https://github.com/derblub/axe-routes/actions/workflows/ci.yml"><img src="https://github.com/derblub/axe-routes/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+  <a href="https://github.com/derblub/axe-routes/releases"><img src="https://img.shields.io/github/v/tag/derblub/axe-routes?label=version&cacheSeconds=3600" alt="Version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
+</p>
+
+<p>
+  <a href="#what-it-does-and-what-it-does-not">What it does</a> ·
+  <a href="#usage">Usage</a> ·
+  <a href="#without-github-actions">Command line</a> ·
+  <a href="#the-json-report">JSON report</a> ·
+  <a href="CHANGELOG.md">Changelog</a>
+</p>
+
+</div>
+
+---
 
 One broken component in a header or a footer fails on every page, and one page nobody looks at fails for months. A check of the home page finds neither. **axe-routes** reads your sitemap, opens every page in headless Chromium at desktop and phone size, runs [axe-core](https://github.com/dequelabs/axe-core) on it and fails the build when a page violates WCAG 2.0, 2.1 or 2.2 at level A or AA.
 
@@ -148,10 +176,24 @@ The options are the inputs above as `--flags`. `CHROME_PATH` names the browser w
 
 Published next to the site, the report is evidence anyone can check: [pushingpixels.at](https://pushingpixels.at/accessibility) links the report of its last deployment from its accessibility statement.
 
+## Contributing
+
+A page that passes although it has a problem, or fails although it has none, is the most useful report. See [CONTRIBUTING.md](CONTRIBUTING.md) for the development setup, and the [Code of Conduct](CODE_OF_CONDUCT.md). Security issues go through [SECURITY.md](SECURITY.md).
+
 ## License
 
 [MIT](LICENSE) © Daniel Kurdoghlian, Pushing Pixels
 
 ---
 
-Built and maintained by [Daniel Kurdoghlian](https://pushingpixels.at) at [Pushing Pixels](https://pushingpixels.at) in Vienna. Automated checks are where an audit starts: I do [fixed-price accessibility audits](https://pushingpixels.at/creates/accessibility-audit) with keyboard and screen reader testing.
+<div align="center">
+  <a href="https://pushingpixels.at">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset="docs/assets/pushing-pixels-dark.svg">
+      <source media="(prefers-color-scheme: light)" srcset="docs/assets/pushing-pixels-light.svg">
+      <img src="docs/assets/pushing-pixels.svg" alt="Pushing Pixels" width="320">
+    </picture>
+  </a>
+  <p>Built and maintained by <a href="https://pushingpixels.at">Daniel Kurdoghlian</a> at <a href="https://pushingpixels.at">Pushing Pixels</a> in Vienna.<br>
+  An automated check is where an audit starts. I do <a href="https://pushingpixels.at/creates/accessibility-audit">fixed-price accessibility audits</a> with keyboard and screen reader testing.</p>
+</div>

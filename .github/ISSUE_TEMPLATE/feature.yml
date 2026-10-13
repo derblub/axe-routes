@@ -1,0 +1,20 @@
+name: Feature request
+description: An idea for a new option, a source of routes or the report.
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What were you trying to check when the tool fell short?
+    validations:
+      required: true
+  - type: textarea
+    id: idea
+    attributes:
+      label: Your idea
+      description: How would you like it to work? Example output is welcome.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you do today instead

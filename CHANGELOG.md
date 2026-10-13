@@ -1,0 +1,14 @@
+# Changelog
+
+All notable changes to this project are documented here. The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and the project uses [Semantic Versioning](https://semver.org/).
+
+## [Unreleased]
+
+- The project page follows the Pushing Pixels design: header, brand files, preview image, contribution and security notes.
+
+## [0.1.0] - 2026-10-13
+
+- First release: checks every route from a sitemap or a list with axe-core in headless Chromium, at desktop, tablet or phone size, as a GitHub Action and from the command line. Writes a job summary grouped by rule and a JSON report.
+
+[Unreleased]: https://github.com/derblub/axe-routes/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/derblub/axe-routes/releases/tag/v0.1.0

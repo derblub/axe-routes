@@ -1,0 +1,40 @@
+name: Bug
+description: A crash, a page that could not be checked or a result that looks wrong.
+labels: ["bug"]
+body:
+  - type: textarea
+    id: command
+    attributes:
+      label: Command or workflow step
+      render: yaml
+      placeholder: |
+        - uses: derblub/axe-routes@v0
+          with:
+            url: http://localhost:3000
+    validations:
+      required: true
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: The error message, or the part of the output or JSON report that is wrong, and what you expected.
+    validations:
+      required: true
+  - type: textarea
+    id: page
+    attributes:
+      label: Page
+      description: The smallest HTML that shows it, or a public address. Remove anything private.
+      render: html
+  - type: input
+    id: version
+    attributes:
+      label: axe-routes version
+      placeholder: v0.1.0
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Node version, browser and operating system
+      placeholder: Node 24, Chrome 141, ubuntu-latest

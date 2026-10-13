@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security issue
+    url: https://github.com/derblub/axe-routes/security/advisories/new
+    about: Please report vulnerabilities privately.
+  - name: A rule that seems wrong
+    url: https://github.com/dequelabs/axe-core/issues
+    about: The rules come from axe-core. Questions about what a rule reports belong there.
+  - name: Professional help with accessibility
+    url: https://pushingpixels.at/creates/accessibility-audit
+    about: Fixed-price accessibility audits by the author, Daniel Kurdoghlian (Pushing Pixels).
