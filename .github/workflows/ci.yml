@@ -1,0 +1,46 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node: [22, 24]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v6
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm ci
+      - run: npm test
+
+  # The action itself, against the sample site of the tests: the clean page has to pass,
+  # the broken one has to fail with the three violations it was written to have.
+  action:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - run: npx --yes http-server test/site --port 8080 --silent &
+      - run: for i in $(seq 1 30); do curl -sf -o /dev/null http://localhost:8080/ && break; sleep 1; done
+      - uses: ./
+        id: clean
+        with:
+          url: http://localhost:8080
+          routes: /
+      - run: test "${{ steps.clean.outputs.passed }}" = 2
+      - uses: ./
+        id: broken
+        continue-on-error: true
+        with:
+          url: http://localhost:8080
+          routes: /broken.html
+          viewports: desktop
+      - run: test "${{ steps.broken.outcome }}" = failure && test "${{ steps.broken.outputs.violations }}" = 3

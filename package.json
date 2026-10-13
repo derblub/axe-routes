@@ -1,0 +1,18 @@
+{
+  "name": "axe-routes",
+  "version": "0.1.0",
+  "description": "Check every route of a site with axe-core in headless Chromium.",
+  "type": "module",
+  "bin": { "axe-routes": "check.mjs" },
+  "files": ["check.mjs"],
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": { "node": ">=22" },
+  "dependencies": {
+    "axe-core": "^4.14.0"
+  },
+  "author": "Daniel Kurdoghlian, Pushing Pixels (https://pushingpixels.at)",
+  "license": "MIT",
+  "repository": "github:derblub/axe-routes"
+}

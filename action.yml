@@ -1,0 +1,106 @@
+name: axe routes
+author: Daniel Kurdoghlian, Pushing Pixels
+description: Check every route of your site with axe-core, from the sitemap or a list, at desktop and phone size.
+branding:
+  icon: check-circle
+  color: green
+
+inputs:
+  url:
+    description: "Address of the running site, e.g. http://localhost:3000 or the URL of a preview deployment."
+    required: true
+  routes:
+    description: "Paths to check, separated by spaces or one per line. Empty reads them from the sitemap."
+    default: ""
+  sitemap:
+    description: "URL or file of a sitemap to read the routes from. Default: <url>/sitemap.xml. Only the paths are used, so the sitemap of the production site works for a local build too."
+    default: ""
+  exclude:
+    description: "Paths to leave out. '/blog/*' leaves out everything below /blog, '/imprint' only that page."
+    default: ""
+  viewports:
+    description: "Sizes to check each page at: desktop (1440×900), tablet (820×1180), phone (390×844)."
+    default: "desktop phone"
+  tags:
+    description: "axe-core rule tags to run. Default: WCAG 2.0, 2.1 and 2.2, levels A and AA. Add 'best-practice' for more."
+    default: "wcag2a wcag2aa wcag21a wcag21aa wcag22aa"
+  fail-on:
+    description: "Fail the step when a page has a 'violation' (default) or one of at least this impact: 'minor', 'moderate', 'serious', 'critical'. 'never' only reports. A page that answers with an HTTP error always fails."
+    default: violation
+  max-pages:
+    description: "Check at most this many routes, in alphabetical order. 0 checks all."
+    default: "200"
+  concurrency:
+    description: "Number of browser tabs to check pages in at once."
+    default: "4"
+  wait:
+    description: "Milliseconds to wait after a page has loaded, for hydration and client-side rendering."
+    default: "500"
+  basic-auth:
+    description: "user:password for a site behind HTTP basic auth. Pass a secret."
+    default: ""
+  axe-version:
+    description: "Version of axe-core to check with. Pin it to keep results comparable between runs."
+    default: "4.14.0"
+
+outputs:
+  report:
+    description: "Path to the JSON report."
+    value: ${{ steps.check.outputs.report }}
+  checked:
+    description: "Number of pages checked: routes × viewports."
+    value: ${{ steps.check.outputs.checked }}
+  passed:
+    description: "Number of pages that pass."
+    value: ${{ steps.check.outputs.passed }}
+  failed:
+    description: "Number of pages that fail."
+    value: ${{ steps.check.outputs.failed }}
+  violations:
+    description: "Number of violated rules, summed over all pages."
+    value: ${{ steps.check.outputs.violations }}
+
+runs:
+  using: composite
+  steps:
+    # The check needs Node 22 or newer for its WebSocket. A job that already has it keeps its own.
+    - name: Look for Node
+      id: node
+      shell: bash
+      run: |
+        major="$(node --version 2>/dev/null | sed 's/^v\([0-9]*\).*/\1/')"
+        if [ "${major:-0}" -lt 22 ]; then echo "setup=true" >> "$GITHUB_OUTPUT"; fi
+    - uses: actions/setup-node@v6
+      if: steps.node.outputs.setup == 'true'
+      with:
+        node-version: 24
+    - name: Install axe-core
+      shell: bash
+      env:
+        AXE_VERSION: ${{ inputs.axe-version }}
+      run: npm install --silent --no-audit --no-fund --prefix "$RUNNER_TEMP/axe-routes" "axe-core@$AXE_VERSION"
+    - name: Check
+      id: check
+      shell: bash
+      env:
+        AXE_CORE: ${{ runner.temp }}/axe-routes/node_modules/axe-core/axe.min.js
+        A11Y_BASIC_AUTH: ${{ inputs.basic-auth }}
+        IN_URL: ${{ inputs.url }}
+        IN_ROUTES: ${{ inputs.routes }}
+        IN_SITEMAP: ${{ inputs.sitemap }}
+        IN_EXCLUDE: ${{ inputs.exclude }}
+        IN_VIEWPORTS: ${{ inputs.viewports }}
+        IN_TAGS: ${{ inputs.tags }}
+        IN_FAIL_ON: ${{ inputs.fail-on }}
+        IN_MAX_PAGES: ${{ inputs.max-pages }}
+        IN_CONCURRENCY: ${{ inputs.concurrency }}
+        IN_WAIT: ${{ inputs.wait }}
+      run: |
+        report="$RUNNER_TEMP/axe-routes/report-$GITHUB_ACTION.json"
+        echo "report=$report" >> "$GITHUB_OUTPUT"
+        args=(--url "$IN_URL" --json "$report" --viewports "$IN_VIEWPORTS" --tags "$IN_TAGS"
+              --fail-on "$IN_FAIL_ON" --max-pages "$IN_MAX_PAGES" --concurrency "$IN_CONCURRENCY" --wait "$IN_WAIT")
+        if [ -n "$IN_ROUTES" ]; then args+=(--routes "$IN_ROUTES"); fi
+        if [ -n "$IN_SITEMAP" ]; then args+=(--sitemap "$IN_SITEMAP"); fi
+        if [ -n "$IN_EXCLUDE" ]; then args+=(--exclude "$IN_EXCLUDE"); fi
+        node "$GITHUB_ACTION_PATH/check.mjs" "${args[@]}"
