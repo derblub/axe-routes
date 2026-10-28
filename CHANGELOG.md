@@ -4,6 +4,8 @@ All notable changes to this project are documented here. The format follows [Kee
 
 ## [Unreleased]
 
+## [0.1.1] - 2026-10-28
+
 - The project page follows the Pushing Pixels design: header, brand files, preview image, contribution and security notes.
 - The action sets up Node with version 7 of `actions/setup-node`, when the job has no Node 22 or newer.
 - Tested on Node 26 as well as on 22 and 24.
@@ -14,5 +16,6 @@ All notable changes to this project are documented here. The format follows [Kee
 
 - First release: checks every route from a sitemap or a list with axe-core in headless Chromium, at desktop, tablet or phone size, as a GitHub Action and from the command line. Writes a job summary grouped by rule and a JSON report.
 
-[Unreleased]: https://github.com/derblub/axe-routes/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/derblub/axe-routes/compare/v0.1.1...HEAD
+[0.1.1]: https://github.com/derblub/axe-routes/compare/v0.1.0...v0.1.1
 [0.1.0]: https://github.com/derblub/axe-routes/releases/tag/v0.1.0

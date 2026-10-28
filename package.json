@@ -1,6 +1,6 @@
 {
   "name": "axe-routes",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Check every route of a site with axe-core in headless Chromium.",
   "keywords": [
     "accessibility",
