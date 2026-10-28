@@ -7,6 +7,7 @@ All notable changes to this project are documented here. The format follows [Kee
 - The project page follows the Pushing Pixels design: header, brand files, preview image, contribution and security notes.
 - The action sets up Node with version 7 of `actions/setup-node`, when the job has no Node 22 or newer.
 - Tested on Node 26 as well as on 22 and 24.
+- The command runs when it is started through the link npm puts in `node_modules/.bin`, as `npx axe-routes` does. Before, it ended at once with exit code 0 and checked nothing.
 
 ## [0.1.0] - 2026-10-13
 

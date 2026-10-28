@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { execFile } from "node:child_process";
-import { existsSync, readFileSync, mkdtempSync } from "node:fs";
+import { existsSync, readFileSync, mkdtempSync, symlinkSync } from "node:fs";
 import { createServer } from "node:http";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
@@ -104,6 +104,21 @@ describe("result", () => {
     assert.match(markdown, /1\/3 pages pass/);
     assert.match(markdown, /\| serious \| \[x\]\(u\): h \| `\/a\\\|b` \| 1 \|/);
     assert.match(markdown, /`\/gone` \| desktop \| HTTP 404/);
+  });
+});
+
+// npm installs the command as a link in node_modules/.bin, and npx starts it from there
+describe("started through a link", () => {
+  test("runs the check, so a missing --url is an error", async () => {
+    const link = join(mkdtempSync(join(tmpdir(), "axe-routes-test-")), "axe-routes");
+    symlinkSync(join(HERE, "..", "check.mjs"), link);
+    const { code, stderr } = await new Promise((ok) =>
+      execFile(process.execPath, [link], { env: { ...process.env, A11Y_BASE_URL: "" } }, (error, stdout, stderr) =>
+        ok({ code: error?.code ?? 0, stderr }),
+      ),
+    );
+    assert.equal(code, 2);
+    assert.match(stderr, /--url needs the address/);
   });
 });
 

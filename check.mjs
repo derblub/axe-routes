@@ -24,7 +24,7 @@
  * Exit code 1 when a page fails (see --fail-on), 2 when the check could not run.
  */
 import { spawn } from "node:child_process";
-import { appendFileSync, existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { appendFileSync, existsSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from "node:fs";
 import { createRequire } from "node:module";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -467,7 +467,10 @@ async function main() {
   process.exit(failed ? 1 : 0);
 }
 
-if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+// Started as a program, also through the link npm puts in node_modules/.bin: argv[1] is
+// then the link, while import.meta.url is the file it points to
+const started = process.argv[1] && existsSync(process.argv[1]) && pathToFileURL(realpathSync(process.argv[1])).href;
+if (started === import.meta.url) {
   main().catch((err) => {
     console.error(err.message || err);
     process.exit(2);
