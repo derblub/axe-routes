@@ -123,6 +123,8 @@ The check is a single file and runs anywhere Node 22 and a Chromium are installe
 npx axe-routes --url http://localhost:3000 --json report.json
 ```
 
+Or add it to a project with `npm install --save-dev axe-routes`, and `npx axe-routes` runs that version.
+
 ```yaml
 # GitLab CI
 a11y:
@@ -139,7 +141,7 @@ a11y:
     paths: [a11y-report.json]
 ```
 
-The options are the inputs above as `--flags`. `CHROME_PATH` names the browser when it is not in a usual place, `A11Y_BASIC_AUTH=user:pass` is the basic auth. Exit code 1 means a page failed, 2 means the check could not run.
+The options are the inputs above as `--flags`, except `basic-auth` and `axe-version`. `CHROME_PATH` names the browser when it is not in a usual place, `A11Y_BASIC_AUTH=user:pass` is the basic auth. The command checks with the axe-core installed next to it, a 4.x from 4.14.0 on. To pin it as the action does, install it with axe-routes: `npm install --save-dev axe-routes axe-core@4.14.0`. `AXE_CORE` can also name an `axe.min.js`. Exit code 1 means a page failed, 2 means the check could not run.
 
 ## The JSON report
 

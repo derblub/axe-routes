@@ -1,0 +1,35 @@
+name: Publish
+
+# A release on GitHub publishes the same version to npm. npm trusts this workflow for the
+# package (trusted publishing), so no token is stored here, and npm shows where the package
+# was built.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: read
+  id-token: write
+
+jobs:
+  npm:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+      - run: npm ci
+      - run: npm test
+      - name: The tag and the package say the same version
+        run: test "v$(node -p 'require("./package.json").version')" = "${{ github.event.release.tag_name }}"
+      # The first version went to npm by hand; a version that is there already is left alone
+      - name: Is this version on npm yet
+        id: npm
+        run: |
+          if npm view "axe-routes@$(node -p 'require("./package.json").version')" version >/dev/null 2>&1; then
+            echo "there=true" >> "$GITHUB_OUTPUT"
+          fi
+      - if: steps.npm.outputs.there != 'true'
+        run: npm publish --provenance --access public

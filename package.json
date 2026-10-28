@@ -2,6 +2,19 @@
   "name": "axe-routes",
   "version": "0.1.0",
   "description": "Check every route of a site with axe-core in headless Chromium.",
+  "keywords": [
+    "accessibility",
+    "a11y",
+    "axe-core",
+    "wcag",
+    "sitemap",
+    "chromium",
+    "github-action",
+    "ci",
+    "european-accessibility-act"
+  ],
+  "homepage": "https://github.com/derblub/axe-routes#readme",
+  "bugs": "https://github.com/derblub/axe-routes/issues",
   "type": "module",
   "bin": { "axe-routes": "check.mjs" },
   "files": ["check.mjs"],
@@ -14,5 +27,8 @@
   },
   "author": "Daniel Kurdoghlian, Pushing Pixels (https://pushingpixels.at)",
   "license": "MIT",
-  "repository": "github:derblub/axe-routes"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/derblub/axe-routes.git"
+  }
 }
