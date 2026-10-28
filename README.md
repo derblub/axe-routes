@@ -14,7 +14,8 @@
 
 <p>
   <a href="https://github.com/derblub/axe-routes/actions/workflows/ci.yml"><img src="https://github.com/derblub/axe-routes/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://github.com/derblub/axe-routes/releases"><img src="https://img.shields.io/github/v/tag/derblub/axe-routes?label=version&cacheSeconds=3600" alt="Version"></a>
+  <a href="https://www.npmjs.com/package/axe-routes"><img src="https://img.shields.io/npm/v/axe-routes?cacheSeconds=3600" alt="npm"></a>
+  <a href="https://www.npmjs.com/package/axe-routes"><img src="https://img.shields.io/node/v/axe-routes?cacheSeconds=3600" alt="Node versions"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue" alt="MIT License"></a>
 </p>
 
